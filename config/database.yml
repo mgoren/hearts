@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  database: hearts_development
+
+test:
+  adapter: postgresql
+  database: hearts_test
