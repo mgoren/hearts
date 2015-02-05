@@ -23,30 +23,55 @@ describe Game do
       p2 = game.players.create(name: "Tina", player_num: 2)
       p3 = game.players.create(name: "Monster", player_num: 3)
       p4 = game.players.create(name: "Cookie", player_num: 4)
-      c1 = Card.create(suit: "club", rank: 2, in_play: true)
-      c2 = Card.create(suit: "heart", rank: 2, in_play: true)
-      c3 = Card.create(suit: "spade", rank: 12, in_play: true)
-      c4 = Card.create(suit: "club", rank: 3, in_play: true)
+      c1 = Card.create(suit: "club", rank: 2, in_play: true, point_value: 0)
+      c2 = Card.create(suit: "heart", rank: 2, in_play: true, point_value: 1)
+      c3 = Card.create(suit: "spade", rank: 12, in_play: true, point_value: 13)
+      c4 = Card.create(suit: "club", rank: 3, in_play: true, point_value: 0)
       p1.cards << c1
       p2.cards << c2
       p3.cards << c3
       p4.cards << c4 # should take trick
       game.score
+      p4.reload
       expect(p4.score).to eq(14)
     end
 
-    # it 'should update turn to next player' do
-    #
-    # end
+    it 'should update turn to next player' do
+      game = Game.create(turn: 1)
+      p1 = game.players.create(name: "Mike", player_num: 1)
+      p2 = game.players.create(name: "Tina", player_num: 2)
+      p3 = game.players.create(name: "Monster", player_num: 3)
+      p4 = game.players.create(name: "Cookie", player_num: 4)
+      c1 = Card.create(suit: "club", rank: 2, in_play: true, point_value: 0)
+      c2 = Card.create(suit: "heart", rank: 2, in_play: true, point_value: 1)
+      c3 = Card.create(suit: "spade", rank: 12, in_play: true, point_value: 13)
+      c4 = Card.create(suit: "club", rank: 3, in_play: true, point_value: 0)
+      p1.cards << c1
+      p2.cards << c2
+      p3.cards << c3
+      p4.cards << c4 # should take trick
+      game.score
+      expect(game.turn).to eq(p4.player_num)
+    end
 
-    # it 'should remove a card from player hand after it has been played' do
-    #   test_game = Game.create
-    #   test_player = test_game.players.create(name: "Mike", player_num: 1)
-    #   test_game.deal
-    #   test_card = test_player.cards.first
-    #   test_player.play_card(test_card)
-    #   expect(test_player.cards.length).to(eq(12))
-    # end
+    it 'should remove a card from player hand after it has been played' do
+      game = Game.create(turn: 1)
+      p1 = game.players.create(name: "Mike", player_num: 1)
+      p2 = game.players.create(name: "Tina", player_num: 2)
+      p3 = game.players.create(name: "Monster", player_num: 3)
+      p4 = game.players.create(name: "Cookie", player_num: 4)
+      c1 = Card.create(suit: "club", rank: 2, in_play: true, point_value: 0)
+      c2 = Card.create(suit: "heart", rank: 2, in_play: true, point_value: 1)
+      c3 = Card.create(suit: "spade", rank: 12, in_play: true, point_value: 13)
+      c4 = Card.create(suit: "club", rank: 3, in_play: true, point_value: 0)
+      p1.cards << c1
+      p2.cards << c2
+      p3.cards << c3
+      p4.cards << c4 # should take trick
+      game.score
+      p1.reload
+      expect(p1.cards.length).to(eq(0))
+    end
 
   end
 

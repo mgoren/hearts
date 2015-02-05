@@ -23,6 +23,8 @@ class Game < ActiveRecord::Base
   end
 
   def score
+
+    # score cards and add points to player who took the trick
     cards = Card.all.in_play
     player_who_led = Player.find_by(player_num: self.turn)
     player_who_led_id = player_who_led.id
@@ -40,8 +42,21 @@ class Game < ActiveRecord::Base
     winning_card = cards.find_by(suit: lead_suit, rank: highest_rank)
     winning_player = Player.find(winning_card.player_id)
 
-    binding.pry
+    score = 0
+    cards.each do |card|
+      score += card.point_value
+    end
+    winning_player.update(score: score)
+
+    # remove played cards from players' hands
+    cards.each do |card|
+      card.update(player_id: nil)
+    end
+
+    # update turn token
+    self.update(turn: winning_player.player_num)
 
   end
+
 
 end

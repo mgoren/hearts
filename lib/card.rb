@@ -4,5 +4,5 @@ class Card < ActiveRecord::Base
   scope(:in_play, -> do
     where(in_play: true)
   end)
-  
+
 end
