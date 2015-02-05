@@ -1,0 +1,7 @@
+Game Over!
+
+<ul>
+  <% @game.players.each do |playa| %>
+    <li><%= playa.name %>: <%= playa.game_score %></li>
+  <% end %>
+</ul>

@@ -50,7 +50,7 @@ class Game < ActiveRecord::Base
 
     # remove played cards from players' hands
     cards.each do |card|
-      card.update(player_id: nil)
+      card.update(player_id: nil, in_play: false)
     end
 
     # update turn token
