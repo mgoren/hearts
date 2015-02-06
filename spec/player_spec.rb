@@ -23,5 +23,11 @@ describe Player do
     end
   end
 
-  
+  describe(:capitalize_name) do
+    it("will capitalize name") do
+      player1 = Player.create({:name => "mike goren"})
+      expect(player1.name()).to(eq("Mike Goren"))
+    end
+  end
+
 end

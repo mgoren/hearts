@@ -72,7 +72,47 @@ describe Game do
       p1.reload
       expect(p1.cards.length).to(eq(0))
     end
+  end
 
+  describe '#next_player' do
+    it 'should update the turn to the next player' do
+      game = Game.create(turn: 4)
+      p1 = game.players.create(name: "Mike", player_num: 1)
+      p2 = game.players.create(name: "Tina", player_num: 2)
+      p3 = game.players.create(name: "Monster", player_num: 3)
+      p4 = game.players.create(name: "Cookie", player_num: 4)
+      game.next_player
+      expect(game.turn).to eq(1)
+    end
+  end
+
+  describe '#end_of_game' do
+    it 'should return true when a player has 100 or more points' do
+      game = Game.create(turn: 1)
+      p1 = Player.create(name: "Tina", game_score: 100)
+      expect(game.end_of_game).to eq(true)
+    end
+  end
+
+  describe '#end_of_round' do
+    it 'should return true when the round is over' do
+      game = Game.create(turn: 1)
+      p1 = game.players.create(name: "Mike", player_num: 1, score: 13)
+      p2 = game.players.create(name: "Tina", player_num: 2, score: 0)
+      p3 = game.players.create(name: "Monster", player_num: 3, score: 0)
+      p4 = game.players.create(name: "Cookie", player_num: 4, score: 13)
+      expect(game.end_of_round).to eq(true)
+    end
+
+    it 'should add the scores from the round to the players total game score' do
+      game = Game.create(turn: 1)
+      p1 = game.players.create(name: "Mike", player_num: 1, score: 13)
+      p2 = game.players.create(name: "Tina", player_num: 2, score: 0)
+      p3 = game.players.create(name: "Monster", player_num: 3, score: 0)
+      p4 = game.players.create(name: "Cookie", player_num: 4, score: 13)
+      game.end_of_round
+      expect(p1.game_score).to eq(13)
+    end
   end
 
 end

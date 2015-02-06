@@ -58,5 +58,35 @@ class Game < ActiveRecord::Base
 
   end
 
+  def next_player
+    next_player_num = self.turn + 1
+    next_player_num = 1 if next_player_num == 5
+    self.update(turn: next_player_num)
+  end
+
+  def end_of_game
+    Player.all.each do |player|
+      if player.game_score >= 100
+        return true
+      end
+    end
+    return false
+  end
+
+  def end_of_round
+    round_score = 0
+    self.players.each { |player| round_score += player.score }
+    if round_score == 26 || round_score == 78
+      self.players.each do |player|
+        new_game_score = player.game_score + player.score
+        player.update(game_score: new_game_score)
+      end
+      self.start
+      return true
+    else
+      return false
+    end
+  end
+
 
 end
