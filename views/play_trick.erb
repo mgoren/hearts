@@ -1,0 +1,22 @@
+<h2><%= @player.name %></h2>
+
+<section id = "cards">
+  <ol>
+    <% @player.cards.each do |card| %>
+      <li><%= card.rank %> of <%= card.suit %>s</li>
+    <% end %>
+  </ol>
+</section>
+
+<section id = "select_card">
+  <form action = "/play_trick" method="post">
+    <div class="form-group">
+      <select name="card">
+        <% @player.cards.each do |card| %>
+          <option value="<%= card.id %>"><%= card.rank %> of <%= card.suit %>s</option>
+        <% end %>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-sm btn-success">Play Card</button>
+  </form>
+</select_card>

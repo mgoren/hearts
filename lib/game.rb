@@ -50,7 +50,7 @@ class Game < ActiveRecord::Base
 
     # remove played cards from players' hands
     cards.each do |card|
-      card.update(player_id: nil, in_play: false)
+      card.update(player_id: nil, in_play: false, lead: false)
     end
 
     # update turn token
@@ -62,6 +62,7 @@ class Game < ActiveRecord::Base
     next_player_num = self.turn + 1
     next_player_num = 1 if next_player_num == 5
     self.update(turn: next_player_num)
+    Player.find_by(player_num: next_player_num)
   end
 
   def end_of_game

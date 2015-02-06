@@ -13,6 +13,8 @@ class Card < ActiveRecord::Base
     where(suit: suit)
   end)
 
+  default_scope { order('suit','rank') }
+
   def legit # update later to add no first blood, no leading hearts until broken, 2 of clubs first
     card = self
     lead_suit = Card.all.led.first.suit
