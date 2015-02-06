@@ -42,8 +42,10 @@ post '/play_trick' do
   @player = Player.find_by(player_num: game.turn)
   card = params['card']
 
+  card.update(lead: true)
   # check to see if card is legal play
   if ! card.legit # WRITE THIS METHOD
+    card.update(lead: false)
     redirect back
   end
 

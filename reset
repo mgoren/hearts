@@ -1,0 +1,6 @@
+rake db:drop
+rake db:create
+rake db:schema:load
+rake db:seed
+rake db:test:prepare
+ruby app.rb
