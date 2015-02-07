@@ -1,22 +1,68 @@
 <h2><%= @player.name %></h2>
 
-<section id = "cards">
-  <ol>
-    <% @player.cards.each do |card| %>
-      <li><%= card.rank %> of <%= card.suit %>s</li>
+<% Player.all.order('player_num').each do |player| %>
+  <div class="player_display">
+    Name: <%= player.name %><br>
+    Score: <%= player.score %><br>
+    <% played_card = player.card_played %>
+    <% if played_card != nil %>
+
+      <% filename = played_card.rank.to_s.concat(played_card.suit).concat('s') %>
+
+      <figure>
+        <img src="/img/<%= filename %>.png">
+        <figcaption><%= played_card.rank %> of <%= played_card.suit %>s</figcaption>
+      </figure>
     <% end %>
-  </ol>
+  </div>
+<% end %>
+
+<hr>
+
+<section id = "cards">
+    <% @player.cards.suit("club").each do |card| %>
+      <% filename = card.rank.to_s.concat(card.suit).concat('s') %>
+        <a href="/play_card/club/<%= card.rank %>">
+          <figure>
+            <img src="/img/<%= filename %>.png">
+            <figcaption><%= card.rank %> of <%= card.suit %>s</figcaption>
+          </figure>
+        </a>
+    <% end %>
+    <% @player.cards.suit("diamond").each do |card| %>
+      <% filename = card.rank.to_s.concat(card.suit).concat('s') %>
+        <a href="/play_card/diamond/<%= card.rank %>">
+          <figure>
+            <img src="/img/<%= filename %>.png">
+            <figcaption><%= card.rank %> of <%= card.suit %>s</figcaption>
+          </figure>
+        </a>
+    <% end %>
+    <% @player.cards.suit("spade").each do |card| %>
+      <% filename = card.rank.to_s.concat(card.suit).concat('s') %>
+        <a href="/play_card/spade/<%= card.rank %>">
+          <figure>
+            <img src="/img/<%= filename %>.png">
+            <figcaption><%= card.rank %> of <%= card.suit %>s</figcaption>
+          </figure>
+        </a>
+    <% end %>
+    <% @player.cards.suit("heart").each do |card| %>
+      <% filename = card.rank.to_s.concat(card.suit).concat('s') %>
+        <a href="/play_card/heart/<%= card.rank %>">
+          <figure>
+            <img src="/img/<%= filename %>.png">
+            <figcaption><%= card.rank %> of <%= card.suit %>s</figcaption>
+          </figure>
+        </a>
+    <% end %>
 </section>
 
-<section id = "select_card">
-  <form action = "/play_trick" method="post">
-    <div class="form-group">
-      <select name="card">
-        <% @player.cards.each do |card| %>
-          <option value="<%= card.id %>"><%= card.rank %> of <%= card.suit %>s</option>
-        <% end %>
-      </select>
-    </div>
-    <button type="submit" class="btn btn-sm btn-success">Play Card</button>
-  </form>
-</select_card>
+<section id= "scores">
+  <h2>Player Scores</h2>
+  <ul>
+    <% Player.all.order('player_num').each do |player| %>
+      <li><%= player.name %>: <%= player.score %></li>
+    <% end %>
+  </ul>
+</section>

@@ -30,6 +30,9 @@ class Card < ActiveRecord::Base
       return true
     end
 
+  def who_played
+    Player.find(self.player_id)
+  end
 
 
   end

@@ -36,7 +36,7 @@ describe Card do
       c1 = player.cards.create(suit: "club")
       c2 = player.cards.create(suit: "club")
       c3 = player.cards.create(suit: "spade")
-      expect(player.cards.suit("club")).to eq([c2, c1] || [c1, c2])
+      expect(player.cards.suit("club")).to eq([c1, c2])
     end
   end
 

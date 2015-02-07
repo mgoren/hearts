@@ -5,6 +5,7 @@ class Game < ActiveRecord::Base
     self.deal
     first_player = Player.find(Card.find_by(suit: "club", rank: 2).player_id).player_num
     self.update(turn: first_player)
+    self.players.each {|player| player.update(score: 0) }
   end
 
   def deal
@@ -42,7 +43,7 @@ class Game < ActiveRecord::Base
     winning_card = cards.find_by(suit: lead_suit, rank: highest_rank)
     winning_player = Player.find(winning_card.player_id)
 
-    score = 0
+    score = winning_player.score
     cards.each do |card|
       score += card.point_value
     end
@@ -82,7 +83,6 @@ class Game < ActiveRecord::Base
         new_game_score = player.game_score + player.score
         player.update(game_score: new_game_score)
       end
-      self.start
       return true
     else
       return false

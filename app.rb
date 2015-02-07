@@ -41,16 +41,26 @@ get '/new_trick' do
   end
 end
 
+get '/new_round' do
+  game = Game.first
+  game.start
+  redirect '/play_trick'
+end
+
 get '/play_trick' do
   game = Game.first
   @player = Player.find_by(player_num: game.turn)
   erb :play_trick
 end
 
-post '/play_trick' do
+get '/play_card/:suit/:rank' do
+  suit = params['suit']
+  rank = params['rank']
+  card = Card.find_by(suit: suit, rank: rank)
+
   game = Game.first
   current_player = Player.find_by(player_num: game.turn)
-  card = Card.find(params['card'])
+
   card.update(in_play: true)
   if Card.all.in_play.length == 1
     card.update(lead: true)
@@ -60,7 +70,7 @@ post '/play_trick' do
   if ! card.legit
     card.update(lead: false, in_play: false)
     @player = current_player
-    
+
     redirect '/play_trick'
   end
 

@@ -9,6 +9,15 @@ class Player < ActiveRecord::Base
     card.update(in_play: true)
   end
 
+  def card_played
+    Card.all.in_play.each do |card|
+      if Player.find(card.player_id) == self
+        return card
+      end
+    end
+    return nil
+  end
+
   private
 
   define_method(:capitalize_name) do

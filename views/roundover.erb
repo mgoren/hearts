@@ -1,7 +1,18 @@
+<section = "round_scores">
+<h2>Round Scores:</h2>
 <ul>
-  <% @game.players.each do |playa| %>
+  <% @game.players.order('player_num').each do |playa| %>
     <li><%= playa.name %>: <%= playa.score %></li>
   <% end %>
 </ul>
+</section>
 
-<a class="btn btn-sm btn-info" href="/new_trick">Begin next round!</a>
+<section = "game_scores">
+  <h2>Game Scores:</h2>
+<ul>
+  <% @game.players.order('player_num').each do |playa| %>
+    <li><%= playa.name %>: <%= playa.game_score %></li>
+  <% end %>
+</ul>
+</section>
+<a class="btn btn-sm btn-info" href="/new_round">Begin next round!</a>
