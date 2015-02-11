@@ -78,7 +78,21 @@ class Game < ActiveRecord::Base
   def end_of_round
     round_score = 0
     self.players.each { |player| round_score += player.score }
-    if round_score == 26 || round_score == 78
+    if Player.first.cards.length == 0
+
+      # check for shooting moon
+      self.players.each do |player|
+        if player.score == 26
+          self.players.each do |playa|
+            if playa != player
+              playa.update(score: 26)
+            end
+            player.update(score: 0)
+          end
+        end
+      end
+
+
       self.players.each do |player|
         new_game_score = player.game_score + player.score
         player.update(game_score: new_game_score)

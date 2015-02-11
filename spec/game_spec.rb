@@ -113,6 +113,16 @@ describe Game do
       game.end_of_round
       expect(p1.game_score).to eq(13)
     end
+
+    it 'should follow rules for shooting moon' do
+      game = Game.create(turn: 1)
+      p1 = game.players.create(name: "Mike", player_num: 1, score: 26)
+      p2 = game.players.create(name: "Tina", player_num: 2, score: 0)
+      p3 = game.players.create(name: "Monster", player_num: 3, score: 0)
+      p4 = game.players.create(name: "Cookie", player_num: 4, score: 0)
+      game.end_of_round
+      expect(p1.game_score).to eq(0)
+    end
   end
 
 end
